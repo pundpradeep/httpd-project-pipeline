@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+    stages {
+         stage("install httpd"){
+            steps { 
+                sh "sudo yum install httpd -y"
+                }
+   }
+          stage ("run httpd service")
+    {
+         steps {
+          sh "sudo systemctl start httpd"
+        }
+ }
+    stage ("save echo file in index.html")
+ {
+        steps {
+       sh "sudo chmod 777 /var/www/html"
+     
+       sh 'sudo echo "helloworld" >> /var/www/html/index.html'
+       
+    }
+}
+    stage ("restart service")
+ {
+        steps {
+        
+        sh "sudo systemctl restart httpd"
+    }
+ }
+
+}
+}
